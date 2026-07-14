@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zio Lele — Calcolatore Ricette</title>
+<meta name="theme-color" content="#1A1714">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAGFklEQVR4nO3df2jUdRzH8ffdzv1ybpqbc9c2LbMsFQtMEkFMykSdRFEEFmFEf2QqSRZaYb8kSrI1oiAi8I/AFKr5M/shhv22n6ZlVJq7TZ3T/XBu7sfdrj80Msn63Nxnt93r+fj7fcd7Y0/u+N5n3wuEC/PjBogKJnsBIJkIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANJCyV7Apz0PjrUhWWnJXuMfXt91zFZ8cMh5/tWbS23uVYOdZu9e94d9+NuJbm6miVcASCMASCMASCMASCMASCMASCMASCOAXhaPJ3sDnI0AelF7NG5rf6hP9ho4S0p/Ejzuxb3+nrswyzbPv8xCwYDzY57Zftj21bV52wmJ4xWgGzJCAauYW5LQH//235vtja+PedwK3UEA3bBsWpFdUZDpPH+8NWpLNkU8boTuIoAETR6RY/dOyk/oMUs2VVtdS9TTRrgQBJCAQRlpVj6n2Nzf+Jit+eY4JzT7MAJIwNMzwlacl+48/+uxdnvqo8MeN8KFIgBHMy/PtdvGD3Ge74zFbUFllbVFuzxuhQtFAA7yB4bs+VnFCT3m2R1HbG/tKU8boacQgINVs4ptaLb7RyY7D5y0176s87gRegoB/I87JlxkM0bnOs83nIrZ4o0R48RD/0AA/6EkL92evDGc0GOWbqm22pOdnjZCTyOA8wgGzMrLSiwn3f1X9Ob39bb1lyaPW6GnEcB53DepwK4rHeg8v7++3Z5I4G4P6BsI4F+MKci0R6YNd56PdsVtwbtV1trJJc/+hgDOEQqePuiWnub+ee+qj2tt9xEuefZHBHCOh6YW2tjCLOf5z6ta7JUvjnrcCD4RwFkmFmfb/ZMLnOdPtMVs0YYq6+KaZ79FAGdkDwhaRVmppQXc3/o8vLXGDp3gkmd/RgBnrLihyEYMcT/otv7HBtv4c6O/hdArCMDMpo8aZHdeM9R5/mBjhz22rcbjRugt8gEMzkqzF2a7H3SLdsXtgcoqO9nBJc9UIB/AczOLbVjOAOf58k+O2rc1rR43Qm+SDuCWcYNtzpV5zvO7qlus4lMueaYS2QCKBg2wlTMudp5vbo/ZwsqIxbizVUqRDCBgZqvnlFhupvu3xyzfVmORpg5/SyEpJAOYPzHfpl6S4zz/zt5Ge3tPo7+FkDRyAYwammGPTnc/6Fbd1GHL3uOSZ6qSCiAUDFhFWYllhtx+7Fg8bgs3RKy5PeZ5MySLVACLpgyzq8PZzvMvf1ZnX0VaPG6EZJMJYEJRli2eMsx5/rtDrbZ6Z63HjdAXSASQGQraS2WlzjezbenosgWVVRblmGfKkwhg+fXDbXR+hvP84+/X2MEGLnkqSPkApozMsXuudb+Z7eZ9TfbW7gaPG6EvSekATt/MtsT5ZraHmztt6ZZqrzuhb0npAFbeFLZwrttBt6642aINEWtq45KnkpT9iqTZY/Ls1nHuN7MNBszWz7vU40Z/G1/+k9W39vz3Bay5fWSPP+dfduxvtnlrD3h7/mRJ2VeAuxL4BxfoStkAEvjXXghL2QAAFwQAaQQAaQQAaQQAaQQAaQQAaYFwYT5nfiGLVwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBI+xONpw42G+f+KgAAAABJRU5ErkJggg==">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAGFklEQVR4nO3df2jUdRzH8ffdzv1ybpqbc9c2LbMsFQtMEkFMykSdRFEEFmFEf2QqSRZaYb8kSrI1oiAi8I/AFKr5M/shhv22n6ZlVJq7TZ3T/XBu7sfdrj80Msn63Nxnt93r+fj7fcd7Y0/u+N5n3wuEC/PjBogKJnsBIJkIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANIIANJCyV7Apz0PjrUhWWnJXuMfXt91zFZ8cMh5/tWbS23uVYOdZu9e94d9+NuJbm6miVcASCMASCMASCMASCMASCMASCMASCOAXhaPJ3sDnI0AelF7NG5rf6hP9ho4S0p/Ejzuxb3+nrswyzbPv8xCwYDzY57Zftj21bV52wmJ4xWgGzJCAauYW5LQH//235vtja+PedwK3UEA3bBsWpFdUZDpPH+8NWpLNkU8boTuIoAETR6RY/dOyk/oMUs2VVtdS9TTRrgQBJCAQRlpVj6n2Nzf+Jit+eY4JzT7MAJIwNMzwlacl+48/+uxdnvqo8MeN8KFIgBHMy/PtdvGD3Ge74zFbUFllbVFuzxuhQtFAA7yB4bs+VnFCT3m2R1HbG/tKU8boacQgINVs4ptaLb7RyY7D5y0176s87gRegoB/I87JlxkM0bnOs83nIrZ4o0R48RD/0AA/6EkL92evDGc0GOWbqm22pOdnjZCTyOA8wgGzMrLSiwn3f1X9Ob39bb1lyaPW6GnEcB53DepwK4rHeg8v7++3Z5I4G4P6BsI4F+MKci0R6YNd56PdsVtwbtV1trJJc/+hgDOEQqePuiWnub+ee+qj2tt9xEuefZHBHCOh6YW2tjCLOf5z6ta7JUvjnrcCD4RwFkmFmfb/ZMLnOdPtMVs0YYq6+KaZ79FAGdkDwhaRVmppQXc3/o8vLXGDp3gkmd/RgBnrLihyEYMcT/otv7HBtv4c6O/hdArCMDMpo8aZHdeM9R5/mBjhz22rcbjRugt8gEMzkqzF2a7H3SLdsXtgcoqO9nBJc9UIB/AczOLbVjOAOf58k+O2rc1rR43Qm+SDuCWcYNtzpV5zvO7qlus4lMueaYS2QCKBg2wlTMudp5vbo/ZwsqIxbizVUqRDCBgZqvnlFhupvu3xyzfVmORpg5/SyEpJAOYPzHfpl6S4zz/zt5Ge3tPo7+FkDRyAYwammGPTnc/6Fbd1GHL3uOSZ6qSCiAUDFhFWYllhtx+7Fg8bgs3RKy5PeZ5MySLVACLpgyzq8PZzvMvf1ZnX0VaPG6EZJMJYEJRli2eMsx5/rtDrbZ6Z63HjdAXSASQGQraS2WlzjezbenosgWVVRblmGfKkwhg+fXDbXR+hvP84+/X2MEGLnkqSPkApozMsXuudb+Z7eZ9TfbW7gaPG6EvSekATt/MtsT5ZraHmztt6ZZqrzuhb0npAFbeFLZwrttBt6642aINEWtq45KnkpT9iqTZY/Ls1nHuN7MNBszWz7vU40Z/G1/+k9W39vz3Bay5fWSPP+dfduxvtnlrD3h7/mRJ2VeAuxL4BxfoStkAEvjXXghL2QAAFwQAaQQAaQQAaQQAaQQAaQQAaYFwYT5nfiGLVwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBIIwBI+xONpw42G+f+KgAAAABJRU5ErkJggg==">
+<style>
+:root {
+  --bg: #1A1714;
+  --surface: #252019;
+  --text: #EDE7D9;
+  --text-muted: #9C9285;
+  --accent: #FF9142;
+  --border: #3A3228;
+
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Consolas, "DejaVu Sans Mono", monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 28px 20px 48px;
+}
+
+.screen { display: none; }
+.screen.active { display: block; animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen.active { animation: none; }
+}
+
+/* --- Screen 1: hero + selezione prodotto --- */
+.hero {
+  padding: 24px 0 36px;
+}
+.wordmark {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+.subtitle {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.product-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 18px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.product-card:not(.disabled):active {
+  border-color: var(--accent);
+}
+
+.product-card.disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+
+.product-text { display: flex; flex-direction: column; }
+.product-name { font-size: 17px; font-weight: 600; }
+.product-variant { font-size: 14px; color: var(--text-muted); margin-top: 2px; }
+.product-arrow { font-family: var(--font-mono); color: var(--accent); font-size: 18px; }
+.product-badge {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 4px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+/* --- Header comune schermate 2/3 --- */
+.screen-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0 26px;
+}
+.btn-back {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 6px 8px;
+  margin-left: -8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.screen-header h1 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* --- Screen 2: input --- */
+.input-group { margin-bottom: 22px; }
+.input-group label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.input-group input {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 30px;
+  font-weight: 600;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--accent);
+  padding: 14px 16px;
+  -webkit-appearance: none;
+}
+.input-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.total-readout-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 16px 2px;
+  margin: 8px 0 30px;
+  border-top: 1px solid var(--border);
+}
+.total-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+.total-value {
+  font-family: var(--font-mono);
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 17px;
+  background: var(--accent);
+  border: none;
+  border-radius: 6px;
+  color: #1A1714;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-primary:active { opacity: 0.85; }
+
+/* --- Screen 3: risultati --- */
+.screen3-subtitle {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.ingredient-list { display: flex; flex-direction: column; }
+
+.ingredient-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: 12px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: baseline;
+}
+.ingredient-name {
+  font-size: 15px;
+  grid-column: 1;
+  grid-row: 1;
+}
+.ingredient-percent {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  grid-column: 1;
+  grid-row: 2;
+  margin-top: 3px;
+}
+.ingredient-weight {
+  font-family: var(--font-mono);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--accent);
+  grid-column: 2;
+  grid-row: 1 / 3;
+  text-align: right;
+  align-self: center;
+  white-space: nowrap;
+}
+
+.action-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+}
+.btn-secondary {
+  flex: 1;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-secondary:active { border-color: var(--accent); }
+
+/* --- Stampa --- */
+@media print {
+  body { background: #fff; color: #000; }
+  .no-print { display: none !important; }
+  .app { max-width: 100%; padding: 0; }
+  .ingredient-weight, .ingredient-name { color: #000; }
+  .ingredient-percent { color: #555; }
+  .ingredient-row { border-bottom: 1px solid #ccc; }
+  .screen3-subtitle { color: #333; }
+}
+
+/* --- Accessibilità --- */
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Schermata 1: selezione prodotto -->
+  <section id="screen-1" class="screen active">
+    <header class="hero">
+      <div class="wordmark">ZIO LELE</div>
+      <div class="subtitle">Calcolatore ricette</div>
+    </header>
+    <div id="product-list" class="product-list"></div>
+  </section>
+
+  <!-- Schermata 2: pezzi e peso -->
+  <section id="screen-2" class="screen">
+    <header class="screen-header">
+      <button id="btn-back-2" class="btn-back" aria-label="Indietro">&#8592;</button>
+      <h1 id="screen2-title"></h1>
+    </header>
+
+    <div class="input-group">
+      <label for="input-pieces">Numero pezzi</label>
+      <input type="number" id="input-pieces" inputmode="decimal" min="0" step="any">
+    </div>
+
+    <div class="input-group">
+      <label for="input-weight">Peso per pezzo (g)</label>
+      <input type="number" id="input-weight" inputmode="decimal" min="0" step="any">
+    </div>
+
+    <div class="total-readout-box">
+      <span class="total-label">Totale impasto</span>
+      <span id="total-readout" class="total-value">0 g</span>
+    </div>
+
+    <button id="btn-calcola" class="btn-primary">Calcola</button>
+  </section>
+
+  <!-- Schermata 3: risultati -->
+  <section id="screen-3" class="screen">
+    <header class="screen-header no-print">
+      <button id="btn-back-3" class="btn-back" aria-label="Indietro">&#8592;</button>
+      <h1 id="screen3-title"></h1>
+    </header>
+    <div id="screen3-subtitle" class="screen3-subtitle"></div>
+
+    <div id="ingredient-list" class="ingredient-list"></div>
+
+    <div class="action-row no-print">
+      <button id="btn-stampa" class="btn-secondary">Stampa</button>
+      <button id="btn-copia" class="btn-secondary">Copia</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+// Dati ricette — Zio Lele
+//
+// Schema: ogni ingrediente ha "percent" = baker's percentage riferita al
+// totale impasto (la somma di tutte le percentuali di un prodotto = impasto
+// totale in %). Da pezzi × peso-per-pezzo si ricava il totale impasto, e da
+// quello ogni singolo ingrediente — nessun valore è fissato, tutto scala.
+//
+// Per aggiungere un prodotto: copiare un blocco, impostare available: true
+// e inserire la lista ingredienti con le percentuali della ricetta finale.
+
+const PRODUCTS = [
+  {
+    id: 'bauletto-senza-semi',
+    name: 'Bauletto',
+    variant: 'Senza Semi',
+    available: true,
+    defaultPieces: 1,
+    defaultWeight: 365,
+    ingredients: [
+      { name: 'Pasta di riporto', percent: 172.2 },
+      { name: 'Farina Gamma', percent: 112.7 },
+      { name: 'Acqua', percent: 59.8 },
+      { name: 'Lievito', percent: 0.53 },
+      { name: 'Malto diastasico', percent: 1.6 },
+      { name: 'Sale', percent: 1.8 },
+      { name: 'Olio di mais altoleico', percent: 15.9 },
+      { name: 'Kraft', percent: 4.8 }
+    ]
+  },
+  {
+    id: 'bauletto-con-semi',
+    name: 'Bauletto',
+    variant: 'Con Semi',
+    available: false,
+    defaultPieces: 1,
+    defaultWeight: 365,
+    ingredients: []
+  },
+  {
+    id: 'bauletto-dolce',
+    name: 'Bauletto',
+    variant: 'Dolce',
+    available: false,
+    defaultPieces: 1,
+    defaultWeight: 365,
+    ingredients: []
+  }
+];
+
+
+// Zio Lele — Calcolatore Ricette
+// Stato applicazione
+const state = {
+  product: null,
+  pieces: null,
+  weight: null,
+  results: null
+};
+
+const screens = {
+  1: document.getElementById('screen-1'),
+  2: document.getElementById('screen-2'),
+  3: document.getElementById('screen-3')
+};
+
+function showScreen(n) {
+  Object.values(screens).forEach((s) => s.classList.remove('active'));
+  screens[n].classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// --- Formattazione numeri (decimale italiano, niente frazioni) ---
+function formatWeight(n) {
+  const rounded = Math.round(n * 100) / 100;
+  return rounded.toString().replace('.', ',');
+}
+
+function formatPercent(n) {
+  return n.toString().replace('.', ',');
+}
+
+// --- Motore di calcolo ---
+// targetTotal = pezzi × peso per pezzo (peso impasto pre-cottura)
+// baseEquivalent = targetTotal riportato a "100% farina" secondo le percentuali panarie
+// ogni ingrediente = percent% × baseEquivalent
+function calculate(product, pieces, weight) {
+  const targetTotal = pieces * weight;
+  const sumPercent = product.ingredients.reduce((s, i) => s + i.percent, 0);
+  const baseEquivalent = targetTotal / (sumPercent / 100);
+  return product.ingredients.map((i) => ({
+    name: i.name,
+    percent: i.percent,
+    weight: baseEquivalent * (i.percent / 100)
+  }));
+}
+
+// --- Screen 1: selezione prodotto ---
+function renderScreen1() {
+  const container = document.getElementById('product-list');
+  container.innerHTML = '';
+  PRODUCTS.forEach((p) => {
+    const card = document.createElement('button');
+    card.className = 'product-card' + (p.available ? '' : ' disabled');
+    card.disabled = !p.available;
+    card.innerHTML = `
+      <span class="product-text">
+        <span class="product-name">${p.name}</span>
+        <span class="product-variant">${p.variant}</span>
+      </span>
+      ${p.available ? '<span class="product-arrow">&#8594;</span>' : '<span class="product-badge">In arrivo</span>'}
+    `;
+    if (p.available) {
+      card.addEventListener('click', () => selectProduct(p));
+    }
+    container.appendChild(card);
+  });
+}
+
+function selectProduct(product) {
+  state.product = product;
+  state.pieces = product.defaultPieces;
+  state.weight = product.defaultWeight;
+  renderScreen2();
+  showScreen(2);
+}
+
+// --- Screen 2: input pezzi / peso per pezzo ---
+function renderScreen2() {
+  document.getElementById('screen2-title').textContent =
+    state.product.name + ' — ' + state.product.variant;
+  document.getElementById('input-pieces').value = state.pieces;
+  document.getElementById('input-weight').value = state.weight;
+  updateTotalReadout();
+}
+
+function updateTotalReadout() {
+  const pieces = parseFloat(document.getElementById('input-pieces').value) || 0;
+  const weight = parseFloat(document.getElementById('input-weight').value) || 0;
+  document.getElementById('total-readout').textContent = formatWeight(pieces * weight) + ' g';
+}
+
+// --- Screen 3: risultati ---
+function goToResults() {
+  const pieces = parseFloat(document.getElementById('input-pieces').value);
+  const weight = parseFloat(document.getElementById('input-weight').value);
+  if (!pieces || !weight || pieces <= 0 || weight <= 0) {
+    alert('Inserisci numero pezzi e peso per pezzo validi.');
+    return;
+  }
+  state.pieces = pieces;
+  state.weight = weight;
+  state.results = calculate(state.product, pieces, weight);
+  renderScreen3();
+  showScreen(3);
+}
+
+function renderScreen3() {
+  document.getElementById('screen3-title').textContent =
+    state.product.name + ' — ' + state.product.variant;
+  document.getElementById('screen3-subtitle').textContent =
+    formatWeight(state.pieces) + ' pz × ' + formatWeight(state.weight) + ' g = ' +
+    formatWeight(state.pieces * state.weight) + ' g impasto';
+
+  const container = document.getElementById('ingredient-list');
+  container.innerHTML = '';
+  state.results.forEach((r) => {
+    const row = document.createElement('div');
+    row.className = 'ingredient-row';
+    row.innerHTML = `
+      <span class="ingredient-name">${r.name}</span>
+      <span class="ingredient-percent">${formatPercent(r.percent)}%</span>
+      <span class="ingredient-weight" data-target="${r.weight}">0 g</span>
+    `;
+    container.appendChild(row);
+  });
+
+  animateWeights();
+}
+
+function animateWeights() {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const elements = document.querySelectorAll('.ingredient-weight');
+  if (prefersReducedMotion) {
+    elements.forEach((el) => {
+      el.textContent = formatWeight(parseFloat(el.dataset.target)) + ' g';
+    });
+    return;
+  }
+  const duration = 450;
+  const start = performance.now();
+  function tick(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    elements.forEach((el) => {
+      const target = parseFloat(el.dataset.target);
+      el.textContent = formatWeight(target * eased) + ' g';
+    });
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+// --- Stampa / Copia ---
+function printResults() {
+  window.print();
+}
+
+async function copyResults() {
+  const lines = [
+    state.product.name + ' — ' + state.product.variant,
+    formatWeight(state.pieces) + ' pz × ' + formatWeight(state.weight) + ' g = ' +
+      formatWeight(state.pieces * state.weight) + ' g impasto',
+    '',
+    ...state.results.map((r) => r.name + ': ' + formatWeight(r.weight) + ' g')
+  ];
+  const text = lines.join('\n');
+  try {
+    await navigator.clipboard.writeText(text);
+    copyFeedback();
+  } catch (e) {
+    fallbackCopy(text);
+  }
+}
+
+function copyFeedback() {
+  const btn = document.getElementById('btn-copia');
+  const original = btn.textContent;
+  btn.textContent = 'Copiato ✓';
+  setTimeout(() => { btn.textContent = original; }, 1500);
+}
+
+function fallbackCopy(text) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.position = 'fixed';
+  textarea.style.opacity = '0';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    copyFeedback();
+  } catch (e) {
+    alert('Copia non riuscita: seleziona il testo manualmente.');
+  }
+  document.body.removeChild(textarea);
+}
+
+// --- Event binding ---
+document.getElementById('btn-back-2').addEventListener('click', () => showScreen(1));
+document.getElementById('btn-back-3').addEventListener('click', () => showScreen(2));
+document.getElementById('btn-calcola').addEventListener('click', goToResults);
+document.getElementById('input-pieces').addEventListener('input', updateTotalReadout);
+document.getElementById('input-weight').addEventListener('input', updateTotalReadout);
+document.getElementById('btn-stampa').addEventListener('click', printResults);
+document.getElementById('btn-copia').addEventListener('click', copyResults);
+
+// --- Init ---
+renderScreen1();
+showScreen(1);
+
+</script>
+</body>
+</html>
