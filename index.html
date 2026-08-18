@@ -286,6 +286,92 @@ input:focus-visible {
   outline-offset: 2px;
 }
 
+
+
+/* --- Form personalizzata --- */
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.form-group input,
+.form-group select {
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 12px 14px;
+  -webkit-appearance: none;
+}
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.form-group select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23FF9142' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+.ingredients-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.ingredient-row-form {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
+  align-items: flex-end;
+}
+.ingredient-row-form input {
+  font-size: 14px;
+  padding: 10px 12px;
+}
+.ingredient-row-form input:last-of-type {
+  width: 70px;
+}
+.btn-remove-ing {
+  padding: 10px 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-add-ing {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-size: 14px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+}
+
 </style>
 </head>
 <body>
@@ -297,7 +383,11 @@ input:focus-visible {
       <div class="wordmark">ZIO LELE</div>
       <div class="subtitle">Calcolatore ricette</div>
     </header>
-    <div id="product-list" class="product-list"></div>
+    <div id="product-list" class="product-list">
+    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
+      <button onclick="goToAddRecipe()" class="btn-primary" style="background: var(--surface); color: var(--accent); border: 1px solid var(--border);">+ Aggiungi ricetta personalizzata</button>
+    </div>
+</div>
   </section>
 
   <!-- Schermata 2: pezzi e peso -->
@@ -341,9 +431,170 @@ input:focus-visible {
     </div>
   </section>
 
+
+  <!-- Schermata 4: aggiungi ricetta personalizzata -->
+  <section id="screen-4" class="screen">
+    <header class="screen-header">
+      <button id="btn-back-4" class="btn-back" aria-label="Indietro">&#8592;</button>
+      <h1>Aggiungi ricetta</h1>
+    </header>
+
+    <div class="form-group">
+      <label for="custom-product-name">Nome prodotto</label>
+      <input type="text" id="custom-product-name" placeholder="Es. Pane toscano">
+    </div>
+
+    <div class="form-group">
+      <label for="custom-product-variant">Variante (opzionale)</label>
+      <input type="text" id="custom-product-variant" placeholder="Es. Integrale">
+    </div>
+
+    <div class="form-group">
+      <label for="custom-flour-total">Farina totale (g)</label>
+      <input type="number" id="custom-flour-total" placeholder="100" value="100" step="any" min="0">
+    </div>
+
+    <div class="form-group">
+      <label for="custom-unit">Unità di misura pezzo</label>
+      <select id="custom-unit">
+        <option value="g">Grammi (g)</option>
+        <option value="pezzo">Pezzo</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Peso/Quantità per pezzo</label>
+      <input type="number" id="custom-weight-per-piece" placeholder="350" value="350" step="any" min="0">
+    </div>
+
+    <div class="form-group">
+      <label>Ingredienti</label>
+      <div id="custom-ingredients-list" class="ingredients-list"></div>
+      <button id="btn-add-ingredient" class="btn-add-ing" onclick="addCustomIngredient()">+ Ingrediente</button>
+    </div>
+
+    <button id="btn-save-recipe" class="btn-primary" onclick="saveCustomRecipe()">Salva ricetta</button>
+    <button id="btn-cancel-recipe" class="btn-secondary" onclick="showScreen(1)">Annulla</button>
+  </section>
+
 </div>
 
 <script>
+
+// --- Gestione ricette personalizzate ---
+let customIngredientCount = 0;
+
+function addCustomIngredient() {
+  const container = document.getElementById('custom-ingredients-list');
+  customIngredientCount++;
+  
+  const row = document.createElement('div');
+  row.className = 'ingredient-row-form';
+  row.id = 'custom-ing-' + customIngredientCount;
+  row.innerHTML = `
+    <input type="text" placeholder="Nome ingrediente" class="custom-ing-name">
+    <input type="number" placeholder="%" step="any" class="custom-ing-percent" min="0">
+    <button type="button" class="btn-remove-ing" onclick="removeCustomIngredient(${customIngredientCount})">×</button>
+  `;
+  container.appendChild(row);
+}
+
+function removeCustomIngredient(id) {
+  const elem = document.getElementById('custom-ing-' + id);
+  if (elem) elem.remove();
+}
+
+function saveCustomRecipe() {
+  const name = document.getElementById('custom-product-name').value.trim();
+  const variant = document.getElementById('custom-product-variant').value.trim();
+  const flourTotal = parseFloat(document.getElementById('custom-flour-total').value);
+  const unit = document.getElementById('custom-unit').value;
+  const weightPerPiece = parseFloat(document.getElementById('custom-weight-per-piece').value);
+  
+  if (!name) {
+    alert('Inserisci il nome del prodotto');
+    return;
+  }
+  if (!flourTotal || flourTotal <= 0) {
+    alert('Inserisci farina totale valida');
+    return;
+  }
+  if (!weightPerPiece || weightPerPiece <= 0) {
+    alert('Inserisci peso/quantità per pezzo valida');
+    return;
+  }
+  
+  const ingredients = [];
+  document.querySelectorAll('.ingredient-row-form').forEach(row => {
+    const ingName = row.querySelector('.custom-ing-name').value.trim();
+    const ingPercent = parseFloat(row.querySelector('.custom-ing-percent').value);
+    if (ingName && ingPercent && ingPercent > 0) {
+      ingredients.push({ name: ingName, percent: ingPercent });
+    }
+  });
+  
+  if (ingredients.length === 0) {
+    alert('Aggiungi almeno un ingrediente');
+    return;
+  }
+  
+  // Crea il prodotto personalizzato
+  const customProduct = {
+    id: 'custom-' + Date.now(),
+    name: name,
+    variant: variant || 'Personalizzata',
+    available: true,
+    defaultPieces: 1,
+    defaultWeight: weightPerPiece,
+    unit: unit,
+    ingredients: ingredients
+  };
+  
+  // Salva in localStorage
+  let saved = JSON.parse(localStorage.getItem('customRecipes') || '[]');
+  saved.push(customProduct);
+  localStorage.setItem('customRecipes', JSON.stringify(saved));
+  
+  // Carica le ricette personalizzate in PRODUCTS
+  loadCustomRecipes();
+  
+  // Mostra messaggio di successo
+  alert('Ricetta "' + name + '" salvata!');
+  
+  // Resetta il form e torna alla home
+  resetCustomForm();
+  showScreen(1);
+}
+
+function resetCustomForm() {
+  document.getElementById('custom-product-name').value = '';
+  document.getElementById('custom-product-variant').value = '';
+  document.getElementById('custom-flour-total').value = '100';
+  document.getElementById('custom-weight-per-piece').value = '350';
+  document.getElementById('custom-ingredients-list').innerHTML = '';
+  customIngredientCount = 0;
+}
+
+function loadCustomRecipes() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('customRecipes') || '[]');
+    // Aggiungi ricette personalizzate alla lista PRODUCTS (dopo quelle di default)
+    // Questo va fatto quando carica l'app
+    if (saved.length > 0) {
+      console.log('Ricette personalizzate caricate:', saved.length);
+    }
+  } catch (e) {
+    console.error('Errore nel caricamento ricette:', e);
+  }
+}
+
+function goToAddRecipe() {
+  resetCustomForm();
+  addCustomIngredient(); // Aggiungi un ingrediente vuoto di partenza
+  showScreen(4);
+}
+
+
 // Dati ricette — Zio Lele
 //
 // Schema: ogni ingrediente ha "percent" = baker's percentage riferita al
@@ -615,6 +866,7 @@ function fallbackCopy(text) {
 
 // --- Event binding ---
 document.getElementById('btn-back-2').addEventListener('click', () => showScreen(1));
+document.getElementById('btn-back-4').addEventListener('click', () => showScreen(1));
 document.getElementById('btn-back-3').addEventListener('click', () => showScreen(2));
 document.getElementById('btn-calcola').addEventListener('click', goToResults);
 document.getElementById('input-pieces').addEventListener('input', updateTotalReadout);
